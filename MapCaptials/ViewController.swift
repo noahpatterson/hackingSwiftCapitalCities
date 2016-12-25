@@ -12,6 +12,12 @@ import MapKit
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBAction func selectMapType(_ sender: Any) {
+        let ac = UIAlertController(title: "Map type:", message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "Satellite", style: .default, handler: changeMapType))
+        ac.addAction(UIAlertAction(title: "Original", style: .default, handler: changeMapType))
+        present(ac, animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +71,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Ok", style: .default))
         present(ac, animated: true)
+    }
+    
+    func changeMapType(action: UIAlertAction) {
+        if action.title == "Satellite" {
+            mapView.mapType = .satellite
+        } else if action.title == "Original" {
+            mapView.mapType = .standard
+        }
     }
 }
 

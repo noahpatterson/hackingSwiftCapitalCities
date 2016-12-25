@@ -36,7 +36,13 @@
                             <constraint firstItem="WrJ-n0-1lu" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="jfa-At-jsA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="2ZO-88-Gh3"/>
+                    <navigationItem key="navigationItem" id="2ZO-88-Gh3">
+                        <barButtonItem key="rightBarButtonItem" title="Select Map Type" id="hqc-6e-v2P">
+                            <connections>
+                                <action selector="selectMapType:" destination="BYZ-38-t0r" id="BPm-jk-aMM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="WrJ-n0-1lu" id="EDi-cK-vuo"/>
                     </connections>
