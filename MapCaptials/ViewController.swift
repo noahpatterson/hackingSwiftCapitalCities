@@ -44,7 +44,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         //check to make sure the annotation is one of ours. This viewFor method is called for our annotations and apple's
         if annotation is Capital {
             //try to dequeue and annotation view from reusables
-           var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+           var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
             
             if annotationView == nil {
                 annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
@@ -53,6 +53,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 
                 let btn = UIButton(type: .detailDisclosure)
                 annotationView!.rightCalloutAccessoryView = btn
+                
+                /*let favoriteBtn = UIButton(type: .roundedRect)
+                favoriteBtn.setTitle("Favorite", for: .normal)
+                annotationView!.leftCalloutAccessoryView = favoriteBtn*/
             } else {
                 //if it can reuse view, update it
                 annotationView!.annotation = annotation
@@ -67,9 +71,28 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let capital = view.annotation as! Capital
         let placeName = capital.title
         let placeInfo = capital.info
+        var pinColor: UIColor
+        
+        
         
         let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Ok", style: .default))
+        
+        let pinView = view as! MKPinAnnotationView
+        if pinView.pinTintColor == MKPinAnnotationView.greenPinColor() {
+            pinColor = MKPinAnnotationView.redPinColor()
+            ac.addAction(UIAlertAction(title: "Un-Favorite?", style: .default) {
+                [unowned pinColor, pinView] _ in
+                pinView.pinTintColor = pinColor
+            })
+        } else {
+            pinColor = MKPinAnnotationView.greenPinColor()
+            ac.addAction(UIAlertAction(title: "Favorite?", style: .default) {
+                [unowned pinColor, pinView] _ in
+                pinView.pinTintColor = pinColor
+            })
+        }
+        
         present(ac, animated: true)
     }
     
@@ -80,5 +103,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             mapView.mapType = .standard
         }
     }
+    
+    
 }
 
